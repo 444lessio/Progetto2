@@ -81,9 +81,9 @@ public class ReportService {
         for (GuestDTO g : guests) {
             xml.append("  <ospite>\n");
             xml.append("     <nome>").append(g.getFirstName()).append("</nome>\n");
-            xml.append("     <congome>").append(g.getLastName()).append("</congome>\n");
+            xml.append("     <cognome>").append(g.getLastName()).append("</congome>\n");
             xml.append("     <cittadinanza>").append(g.getCitizenship()).append("</cittadinanza>\n");
-            xml.append("     <luogoNascita>").append(g.getBirthPlace()).append("/luogoNascita>\n");
+            xml.append("     <luogoNascita>").append(g.getBirthPlace()).append("</luogoNascita>\n");
             xml.append("     <dataNascita>").append(g.getBirthDate()).append("</dataNascita>\n");
 
             if (g.isLeader()) {

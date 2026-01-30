@@ -42,7 +42,7 @@ public class AdminController {
     }
 
     //Per esportare il report gionraliero in formato XML
-    @GetMapping(value = "/export/quesura.xml", produces = "application/xml")
+    @GetMapping(value = "/export/questura.xml", produces = "application/xml")
     @ResponseBody //Notazione che restituisce direttamente il contenuto XML invece che una vista
     public String exportQuesturaXml() {
         List<GuestDTO> data = reportService.getQuesturaReportData();
