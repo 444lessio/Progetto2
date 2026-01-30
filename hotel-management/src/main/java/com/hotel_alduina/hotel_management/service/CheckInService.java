@@ -43,6 +43,8 @@ public class CheckInService {
             guest.setBooking(booking);
         }
 
+        guestDetailRepository.saveAll(guests);
+
         //Aggiorno lo stato della prenotazione
         booking.setCheckedIn(true);
 

@@ -52,6 +52,9 @@ public class Booking {
     @Column(name = "check_out_effettuato")
     private boolean checkedOut = false;
 
+    @Column(name = "num_occupanti", nullable = false)
+    private int NumGuests;
+
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GuestDetail> guestDetails;
 }

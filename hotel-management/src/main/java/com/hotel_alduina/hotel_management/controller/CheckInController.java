@@ -1,6 +1,7 @@
 package com.hotel_alduina.hotel_management.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.hotel_alduina.hotel_management.dto.CheckInForm;
 import com.hotel_alduina.hotel_management.dto.GuestDTO;
 import com.hotel_alduina.hotel_management.model.Booking;
 import com.hotel_alduina.hotel_management.model.GuestDetail;
+import com.hotel_alduina.hotel_management.model.User;
 import com.hotel_alduina.hotel_management.service.CheckInService;
 
 
@@ -34,8 +36,38 @@ public class CheckInController {
 
     @GetMapping("{bookingId}") //PathVariable per identificare la prenotazione
     public String showCheckInForm(@PathVariable Long bookingId, Model model) {
+        Booking booking = checkInService.findBookingById(bookingId);
+        if (booking == null) {
+            return "redirect:/client/dashboard";
+        }
+
         CheckInForm form = new CheckInForm();
         form.setBookingId(bookingId);
+
+        List<GuestDTO> guestList = new ArrayList<>();
+        int numberOfGuest = booking.getNumGuests();
+
+        for (int i = 0; i< numberOfGuest; i++) {
+            GuestDTO guest = new GuestDTO();
+
+            if(i == 0){
+                guest.setLeader(true);
+
+                User customer = booking.getCustomer();
+                if(customer != null) {
+                    guest.setFirstName(customer.getFirstName());
+                    guest.setLastName(customer.getLastName());
+                    guest.setCitizenship(customer.getCitizenship());
+                }
+            } else {
+                    guest.setLeader(false);
+            }
+
+                guestList.add(guest);
+        }
+
+        form.setGuests(guestList);
+
         model.addAttribute("checkInForm", form);
         return "stay/check-in";
     }
