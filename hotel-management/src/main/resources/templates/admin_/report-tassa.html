@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Tassa di Soggiorno - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Report Tassa di Soggiorno</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/admin/dashboard}">Torna alla Dashboard</a></li>
+                <li><a th:href="@{/admin/report-questura}">Report Questura</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Riepilogo delle Esenzionio e dell'Occupazione</h2>
+            <p>Dati necessari per l'imposta</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capogruppo</th>
+                        <th>Ospiti totali</th>
+                        <th>Numero esenti</th>
+                        <th>Tipo esenzione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="report : ${taxReports}">
+                        <td th:text="${report.headOfGroupName}">Mario Rossi</td>
+                        <td th:text="${report.totalGuests}">3</td>
+                        <td th:text="${report.exemptionsCount}">1</td>
+                        <td th:text="${report.exemptionType}">Minori di 12 anni</td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(taxReports)}">
+                        <td colspan="4">Nessun dato per il report attuale</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="export-actions">
+            <h2>Esportazione XML</h2>
+            <p>Scarica il report in formato XML</p>
+            <a th:href="@{/admin/export/tassa-soggiorno.xml}" class="btn-download">Esporta Report Tassa</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy, 2026 Hotel Alduina - Amministrazione</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Crea il tuo Account</h1>
+        <p>Unisciti alla nostra catena per gestire le tue prenotazioni in autonomia.</p>
+    </header>
+
+    <main>
+        <section>
+            <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
+                <fieldset>
+                    <legend>Dati Utente</legend>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" th:field="*{username}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" th:field="*{email}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" th:field="*{firstName}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cognome">Cognome:</label>
+                        <input type="text" id="cognome" th:field="*{lastName}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cittadinanza">Cittadinanza:</label>
+                        <input type="text" id="cittadinanza" th:field="*{citizenship}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" th:field="*{password}" required />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Registrati</button>
+                        <p>Hai già un account? <a th:href="@{/login}">Accedi qui</a></p>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema Prenotazioni</p>
+    </footer>
+</body>
+</html>

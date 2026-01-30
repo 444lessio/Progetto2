@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invia Richiesta - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <h1 th:text="'Soggiorno di' + ${customerName}">Richiesta allo Staff</h1>
+    </header>
+
+    <main>
+        <section>
+            <form th:action="@{/soggiorno/richiesta/invia}" th:object="${noteForm}" method="post">
+
+                <fieldset>
+                    <legend>Nuova Richiesta o Nuova Nota</legend>
+
+                    <p>Utilizza questo modulo per comunicare con lo staff</p>
+
+                    <div>
+                        <label for="notaContent">Descrizione della richiesta:</label><br>
+                        <textarea id="notaContent" th:field="*{content}"
+                                  rows="6" cols="50" required
+                                  placeholder="Scrivi qui la tua richiesta"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Invia allo Staff</button>
+                        <button type="reset">Cancella</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <p><a th:href="@{/checkout/{roomId}(roomId=${roomId})}">Vai al check-out</a></p>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema Gestione dei Soggiorni</p>
+    </footer>
+</body>
+
+</html>

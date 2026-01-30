@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Questura - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Report Giornaliero dei Presenti</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/admin/dashboard}">Torna alla Dashboard</a></li>
+                <li><a th:href="@{/admin/report-tassa}">Report tassa di soggiorno</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Elenco Ospiti</h2>
+            <p>Anteprima dei dati anagrafici</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ruolo</th>
+                        <th>Cognome</th>
+                        <th>Nome</th>
+                        <th>Cittadinanza</th>
+                        <th>Luogo di Nascita</th>
+                        <th>Data di Nascita</th>
+                        <th>Documenti del capogruppo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="guest : ${guests}">
+                        <td th:text="${guest.leader ? 'CAPOGRUPPO' : 'OSPITE'}"
+                            th:class="${guest.leader ? 'text-leader' : ''}">Ruolo</td>
+                        
+                        <td th:text="${guest.lastName}">Rossi</td>
+                        <td th:text="${guest.firstName}">Mario</td>
+                        <td th:text="${guest.citizenship}">Italiana</td>
+                        <td th:text="${guest.birthPlace}">Palermo</td>
+                        <td th:text="${guest.birthDate}">2001-10-27</td>
+
+                        <td>
+                            <span th:if="${guest.leader}">
+                                Documento Verificato
+                            </span>
+                            <span th:unless="${guest.leader}" class="text_muted">-</span>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(guests)}">
+                        <td colspan="7">Nessun ospite al momento</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+        <section class="export-actions">
+            <h2>Esportazione</h2>
+            <p>Genera il file in formato XML validato</p>
+            <a th:href="@{/admin/export/questura.xml}" class="btn-download">Scarica XML</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Amministrazione</p>
+    </footer>
+</body>
+</html>

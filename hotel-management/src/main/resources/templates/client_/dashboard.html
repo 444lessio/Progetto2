@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Cliente - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Bentornato/a, <span th:text="${#authentication.name}">Utente</span>!</h1>
+    <p>Qui puoi gestire le tue prenotazioni e i tuoi soggiorni in corso.</p>
+    <nav>
+        <a th:href="@{/prenota/ricerca}">Effettua una nuova prenotazione</a> |
+        <a th:href="@{/logout}">Disconnetti</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Le Mie Prenotazioni</h2>
+
+    <!-- Messaggio se non ci sono prenotazioni -->
+    <div th:if="${#lists.isEmpty(userBookings)}">
+        <p>Non hai ancora effettuato alcuna prenotazione. 
+           <a th:href="@{/prenota/ricerca}">Inizia ora!</a></p>
+    </div>
+
+    <!-- Tabella prenotazioni -->
+    <table th:unless="${#lists.isEmpty(userBookings)}">
+        <thead>
+            <tr>
+                <th>Struttura</th>
+                <th>Camera</th>
+                <th>Periodo</th>
+                <th>Prezzo Totale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="booking : ${userBookings}">
+                <td>
+                    <strong th:text="${booking.room.structure.name}">Nome Hotel</strong><br/>
+                    <small th:text="${booking.room.structure.location}">Località</small>
+                </td>
+                <td th:text="${booking.room.roomNumber}">101</td>
+                <td>
+                    Dal: <span th:text="${#temporals.format(booking.startDate, 'dd/MM/yyyy')}">10/05/2025</span><br/>
+                    Al: <span th:text="${#temporals.format(booking.endDate, 'dd/MM/yyyy')}">15/05/2025</span>
+                </td>
+                <td th:text="${#numbers.formatCurrency(booking.totalCost)}">€ 500,00</td>
+                <td>
+                    <!-- Check-in se non ancora effettuato -->
+                    <a th:if="${!booking.checkedIn}" 
+                       th:href="@{/stay/check-in/{bookingId}(bookingId=${booking.id})}" 
+                       class="btn btn-checkin">Effettua Check-in</a>
+
+                    <!-- Soggiorno in corso -->
+                    <div th:if="${booking.checkedIn && !booking.checkedOut}">
+                        <span class="status-badge status-active">Soggiorno in corso</span><br/><br/>
+
+                        <!-- Invia nota / richiesta staff -->
+                        <a th:href="@{/soggiorno/richiesta/{roomId}(roomId=${booking.room.id})/inserimento-nota}" 
+                           class="btn btn-note">Invia Richiesta Staff</a><br/><br/>
+
+                        <!-- Check-out -->
+                        <a th:href="@{/stay/check-out/{bookingId}(bookingId=${booking.id})}" 
+                           class="btn btn-checkout">Effettua Check-out</a>
+                    </div>
+
+                    <!-- Soggiorno concluso -->
+                    <div th:if="${booking.checkedOut}">
+                        <span class="status-badge status-past">Soggiorno Concluso</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <p>&copy; 2026 Sistema Gestione Catena Alberghiera - Progetto Università di Palermo</p>
+</footer>
+
+</body>
+</html>

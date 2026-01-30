@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-out Online - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Procedura di Partenza (Check-out)</h1>
+        <p>Grazie per aver soggiornato presso l'Hotel Alduina. Verifica i dettagli prima di confermare la partenza.</p>
+    </header>
+
+    <main>
+        <section class="stay-summary">
+            <h2>Dettagli del Soggiorno</h2>
+            <p><strong>Camera:</strong> <span th:text="${booking != null ? booking.room.roomNumber : 'N/D'}">101</span></p>
+            <p><strong>Periodo:</strong> dal <span th:text="${booking.startDate}">01/01/2025</span> al <span th:text="${booking.endDate}">10/01/2025</span></p>
+        </section>
+
+        <section class="guest-confirmation">
+            <h2>Conferma Dati Ospiti</h2>
+            <p>Ti preghiamo di confermare che i dati anagrafici registrati siano corretti per la fatturazione e i report legali.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ospite</th>
+                        <th>Cittadinanza</th>
+                        <th>Documento (Capogruppo)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="guest : ${guestDetails}">
+                        <td th:text="${guest.firstName + ' ' + guest.lastName}">Mario Rossi</td>
+                        <td th:text="${guest.citizenship}">Italiana</td>
+                        <td>
+                            <span th:if="${guest.leader}" th:text="${guest.documentNumber}">XY123456</span>
+                            <span th:unless="${guest.leader}" class="text-muted">N/D</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="cost-summary">
+            <h2>Riepilogo Costi</h2>
+            <div class="total-box">
+                <p>Totale Soggiorno e Servizi: 
+                   <strong>€ <span th:text="${#numbers.formatDecimal(booking.totalCost, 1, 2)}">0.00</span></strong>
+                </p>
+            </div>
+        </section>
+
+        <div class="form-actions">
+            <form th:action="@{/stay/check-out/conferma}" method="post">
+                <input type="hidden" name="bookingId" th:value="${booking.id}" />
+                
+                <p class="warning-text">Cliccando su "Conferma Partenza", dichiarerai concluso il tuo soggiorno e libererai la camera.</p>
+                
+                <button type="submit" class="btn-primary">Conferma Partenza e Salda</button>
+                <a th:href="@{/stay/inserimento-nota}" class="btn-secondary">Torna indietro</a>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema Gestione Soggiorni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard Staff - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Pannello operativo Personale</h1>
+    </header>
+
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Camera</th>
+                    <th>Stato</th>
+                    <th>Note</th>
+                    <th>Azioni</th>                                    
+                </tr>
+            </thead>
+            <tbody>
+                <!--Itero sulle camere tramite Thymelead-->
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomNumber}">101</td>
+                    <td th:text="${room.status}">OCCUPATA</td>
+                    <td th:text="${room.notes}">Nessuna nota</td>
+                    <td>
+                        <!--Mostra solo se la camera è da pulire-->
+                        <form th:if="${room.status.name() == 'DA_PULIRE'}"
+                            th:action="@{/staff/pulizia/conferma}" method="post">
+                            <input type="hidden" name="roomId" th:value="${room.id}">
+                          <button type="submit">Segnala Pulita</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

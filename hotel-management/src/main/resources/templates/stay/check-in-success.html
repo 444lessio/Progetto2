@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-in Effettuato - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Check-in Effettuato con Successo!</h1>
+</header>
+
+<main>
+    <p>Benvenuto/a nella tua stanza, <strong th:text="${#authentication.name}">Utente</strong>!</p>
+    <p>Il tuo soggiorno presso <strong th:text="${booking.room.structure.name}">Nome Hotel</strong>, 
+       camera <strong th:text="${booking.room.roomNumber}">101</strong>, è stato registrato correttamente.</p>
+
+    <p>Periodo del soggiorno: 
+        <span th:text="${#temporals.format(booking.startDate, 'dd/MM/yyyy')}">10/05/2026</span> 
+        - 
+        <span th:text="${#temporals.format(booking.endDate, 'dd/MM/yyyy')}">15/05/2026</span>
+    </p>
+
+    <a th:href="@{/client/dashboard}" class="btn btn-primary">Torna alla Dashboard</a>
+</main>
+
+<footer>
+    <p>&copy; 2026 Sistema Gestione Catena Alberghiera</p>
+</footer>
+
+</body>
+</html>

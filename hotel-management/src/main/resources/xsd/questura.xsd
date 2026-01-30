@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="reportQuestura">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ospite" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="nome" type="xs:string"/>
+              <xs:element name="cognome" type="xs:string"/>
+              <xs:element name="cittadinanza" type="xs:string"/>
+              <xs:element name="luogoNascita" type="xs:string"/>
+              <xs:element name="dataNascita" type="xs:date"/>
+              <!-- Il documento è opzionale nello schema per gestire i non-leader -->
+              <xs:element name="documento" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="tipo" type="xs:string"/>
+                    <xs:element name="numero" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

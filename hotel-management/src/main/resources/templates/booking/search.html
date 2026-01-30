@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cerca Disponibilità - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Prenota il tuo soggiorno</h1>
+        <p>Benvenuto nel sistema di prenotazione della catena Alduina.</p>
+    </header>
+
+    <main>
+        <section>
+            <form th:action="@{/prenota/disponibilita}" th:object="${bookingForm}" method="get">
+                <fieldset>
+                    <legend>Parametri di Ricerca</legend>
+
+                    <div class="form-group">
+                        <label for="startDate">Data Arrivo:</label>
+                        <input type="date" id="startDate" th:field="*{startDate}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDate">Data Partenza:</label>
+                        <input type="date" id="endDate" th:field="*{endDate}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guests">Numero Ospiti:</label>
+                        <input type="number" id="guests" th:field="*{numGuests}" min="1" max="10" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="structureId">Struttura:</label>
+                        <select id="structureId" th:field="*{structureId}" required>
+                            <option th:each="s : ${structures}"
+                                    th:value="${s.id}"
+                                    th:text="${s.name}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Verifica Disponibilità</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Soggiorni di Qualità</p>
+    </footer>
+</body>
+</html>

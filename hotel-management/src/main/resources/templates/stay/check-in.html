@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"> 
+    <title>Check-in Online - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Procedura di Check-in Online</h1>
+        <p>Benvenuto, conferma i tuoi dati anagrafici per completare l'arrivo in struttura.</p>
+    </header>
+
+    <main>
+        <section>
+            <form th:action="@{/stay/check-in/conferma}" method="post" th:object="${checkInForm}">
+                
+                <!-- Booking ID nascosto -->
+                <input type="hidden" th:field="*{bookingId}" />
+
+                <!-- Ciclo ospiti -->
+                <div th:each="guest, iterStat : *{guests}">
+                    <fieldset>
+                        <legend th:text="${guest.leader} ? 'Dati Capogruppo' : 'Dati Ospite ' + iterStat.count">
+                            Informazioni Ospite
+                        </legend>
+
+                        <div class="form-group">
+                            <label>Nome:</label>
+                            <input type="text" th:field="*{guests[__${iterStat.index}__].firstName}" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cognome:</label>
+                            <input type="text" th:field="*{guests[__${iterStat.index}__].lastName}" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cittadinanza:</label>
+                            <input type="text" th:field="*{guests[__${iterStat.index}__].citizenship}" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Data di Nascita:</label>
+                            <input type="date" th:field="*{guests[__${iterStat.index}__].birthDate}" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Luogo di Nascita:</label>
+                            <input type="text" th:field="*{guests[__${iterStat.index}__].birthPlace}" required />
+                        </div>
+
+                        <div th:if="${guest.leader}" class="leader-docs">
+                            <h3>Documento di Identità (Obbligatorio per Capogruppo)</h3>
+                            <div class="form-group">
+                                <label>Tipo Documento:</label>
+                                <select th:field="*{guests[__${iterStat.index}__].documentType}" required>
+                                    <option value="CARTA_IDENTITA">Carta d'Identità</option>
+                                    <option value="PASSAPORTO">Passaporto</option>
+                                    <option value="PATENTE">Patente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Numero Documento:</label>
+                                <input type="text" th:field="*{guests[__${iterStat.index}__].documentNumber}" 
+                                       placeholder="Inserisci gli estremi..." required />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Conferma e Inizia Soggiorno</button>
+                    <button type="reset" class="btn-secondary">Annulla</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema Gestione Soggiorni</p>
+    </footer>
+</body>
+</html>

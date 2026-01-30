@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Riepilogo e Conferma - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Riepilogo della tua Prenotazione</h1>
+        <p>Controlla i dettagli prima di confermare il tuo soggiorno.</p>
+    </header>
+
+    <main>
+        <section class="summary-details">
+            <h2>Dettagli Soggiorno</h2>
+            <p><strong>Check-in:</strong> <span th:text="${booking.startDate}">2025-06-01</span></p>
+            <p><strong>Check-out:</strong> <span th:text="${booking.endDate}">2025-06-10</span></p>
+            <p><strong>Camera selezionata:</strong> <span th:text="${booking.room.roomNumber} + ' - ' + ${booking.room.roomNumber}">101</span></p>
+        </section>
+
+
+        <section class="summary-services">
+            <h2>Servizi Aggiuntivi Selezionati</h2>
+            <p th:text="'Servizi extra inclusi nel totale'">Servizi</p>
+        </section>
+
+
+        <section class="summary-cost">
+            <h2>Totale da Corrispondere</h2>
+            <p class="total-price">
+                <span th:text="'€ ' + ${#numbers.formatDecimal(booking.totalCost, 1, 2)}">€ 0.00</span>
+            </p>
+        </section>
+
+
+        <div class="form-actions">
+            <form th:action="@{/prenota/conferma}" th:object="${bookingForm}" method="post">
+                <button type="submit" class="btn-confirm">Conferma Prenotazione</button>
+                <a th:href="@{/booking/ricerca}" class="btn-cancel">Annulla e Torna alla Ricerca</a>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema di Prenotazione Online</p>
+    </footer>
+</body>
+</html>

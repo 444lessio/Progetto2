@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+    <header>
+        <h1>Accesso Riservato</h1>
+        <p>Inserisci le tue credenziali per accedere al sistema.</p>
+    </header>
+
+    <main>
+        <section>
+            <form th:action="@{/login}" method="post">
+                <fieldset>
+                    <legend>Login</legend>
+
+
+                    <div th:if="${param.error}" class="error-msg">
+                        <p style="color: red;">Username o password non validi.</p>
+                    </div>
+
+
+                    <div th:if="${param.logout}" class="logout-msg">
+                        <p>Sei uscito correttamente dal sistema.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Accedi</button>
+                        <p>Non hai un account? <a th:href="@{/registration}">Registrati subito</a></p>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sicurezza Garantita</p>
+    </footer>
+</body>
+</html>

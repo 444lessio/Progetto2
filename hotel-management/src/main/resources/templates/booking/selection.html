@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Selezione Camera e Servizi - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Scegli la tua soluzione ideale</h1>
+        <p>Risultati della ricerca per le date selezionate.</p>
+    </header>
+
+    <main>
+        <form th:action="@{/prenota/conferma}" th:object="${bookingForm}" method="post">
+            <input type="hidden" th:field="*{startDate}" />
+            <input type="hidden" th:field="*{endDate}" />
+            <input type="hidden" th:field="*{structureId}" />
+            <input type="hidden" th:field="*{numGuests}" />
+            <section>
+                <h2>1. Seleziona la Camera</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Selezione</th>
+                            <th>Numero Camera</th>
+                            <th>Prezzo per Notte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="room : ${availableRooms}">
+                            <td>
+                                <input type="radio" th:field="*{roomId}" th:value="${room.id}" required />
+                            </td>
+                            <td th:text="${room.roomNumber}">101</td>
+                            <td th:text="${room.pricePerNight}">€ 120.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>2. Servizi Aggiuntivi</h2>
+                <p>Personalizza il tuo soggiorno con i nostri servizi esclusivi:</p>
+                
+                <div class="services-list">
+                    <div class="service-item">
+                        <input type="checkbox" id="spa" name="additionalServices" value="SPA" th:field="*{additionalServices}" />
+                        <label for="spa">Percorso Benessere / SPA (+€30)</label>
+                    </div>
+                    <div class="service-item">
+                        <input type="checkbox" id="transfer" name="additionalServices" value="TRANSFER" th:field="*{additionalServices}" />
+                        <label for="transfer">Servizio Transfer Aeroporto (+€50)</label>
+                    </div>
+                    <div class="service-item">
+                        <input type="checkbox" id="breakfast" name="additionalServices" value="BREAKFAST" th:field="*{additionalServices}" />
+                        <label for="breakfast">Colazione in camera (+€15)</label>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Vai al Riepilogo Costi</button>
+                <a th:href="@{/booking/search}" class="btn-secondary">Modifica Date</a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hotel Alduina - Sistema di Prenotazione Online</p>
+    </footer>
+</body>
+</html>
