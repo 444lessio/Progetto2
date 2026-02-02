@@ -36,6 +36,6 @@ public class DashboardController {
         List<Booking> userBookings = bookingRepository.findByCustomer(user);
 
         model.addAttribute("userBookings", userBookings);
-        return "/client_/dashboard"; // Thymeleaf template: dashboard.html
+        return "/client_/dashboard"; 
     }
 }

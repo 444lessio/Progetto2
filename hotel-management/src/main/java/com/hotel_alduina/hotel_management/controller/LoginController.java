@@ -20,11 +20,8 @@ public class LoginController {
             model.addAttribute("message", "Disconnessione avvenuta con successo");
         }
 
-        //Il return restituisce il nome della vista Thymeleaf templates/login.html
+        
         return "client_/login";
                         }
 }
 
-/*Non creo il POST dato che in Spring Security la gestione del form di login
-  viene configurata centralmente nella classe di configurazioned della sicurezza
-  Quindi in questo caso il controller lo uso solamente per le richieste GET*/

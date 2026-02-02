@@ -60,7 +60,7 @@
         </section>
 
         <div class="form-actions">
-            <!-- Mostra il pulsante solo se ci sono ospiti -->
+            
             <form th:if="${!#lists.isEmpty(guests)}" 
                   th:action="@{/stay/check-in/conferma}" 
                   method="post">
@@ -75,7 +75,7 @@
                 <a th:href="@{/client/dashboard}" class="btn-secondary">Annulla</a>
             </form>
 
-            <!-- Messaggio se mancano ospiti -->
+            
             <div th:if="${#lists.isEmpty(guests)}" class="error-box">
                 <p>Non è possibile effettuare il check-in senza dati degli ospiti.</p>
                 <a th:href="@{/client/dashboard}" class="btn-secondary">Torna alla Dashboard</a>

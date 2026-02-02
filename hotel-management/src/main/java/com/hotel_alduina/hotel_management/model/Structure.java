@@ -1,6 +1,6 @@
 package com.hotel_alduina.hotel_management.model;
 
-import jakarta.persistence.*; /*Per permette di far comunicare le classi Java con le tabelle del DB */
+import jakarta.persistence.*; 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

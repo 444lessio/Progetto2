@@ -35,8 +35,8 @@ public class BookingController {
     }
 
     /*
-     * Mostra il form di ricerca iniziale e
-     * Carica la lsita delle strutture per permettere la selezione nel menu a
+     * Mostro il form di ricerca iniziale e
+     * Carico la lsita delle strutture per permettere la selezione nel menu a
      * tendina
      */
     @GetMapping("/ricerca")
@@ -47,8 +47,8 @@ public class BookingController {
     }
 
     /*
-     * Mostra i risultati della ricerca
-     * Filtra le camere disponibili in base a quale struttura viene selezionata e
+     * Mostro i risultati della ricerca
+     * Filtro le camere disponibili in base a quale struttura viene selezionata e
      * alle date selezionate
      */
 
@@ -72,18 +72,6 @@ public class BookingController {
         model.addAttribute("bookingForm", form);
         return "booking/selection";
     }
-
-    /*
-     * @GetMapping("/servizi/{roomId}")
-     * public String showServiceForm(@PathVariable Long roomId,
-     * 
-     * @ModelAttribute("bookingForm") BookingForm form,
-     * Model model) {
-     * form.setRoomId(roomId);
-     * model.addAttribute("bookingForm", form);
-     * return "booking/selection";
-     * }
-     */
 
     /* Conferma della prenotazione e riepilogo dei costi */
     @PostMapping("/riepilogo")

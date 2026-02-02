@@ -20,7 +20,7 @@ public class GuestDetailService {
         this.guestDetailRepository = guestDetailRepository;
     }
 
-    // 🔹 Recupera tutti gli ospiti di una prenotazione
+    //Recupero tutti gli ospiti di una prenotazione
     @Transactional(readOnly = true)
     public List<GuestDetail> findByBooking(Booking booking) {
         return guestDetailRepository.findByBooking(booking)
@@ -28,7 +28,7 @@ public class GuestDetailService {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Recupera il capogruppo di una prenotazione
+    //Recupero il capogruppo di una prenotazione
     @Transactional(readOnly = true)
     public GuestDetail findLeaderByBooking(Booking booking) {
         return guestDetailRepository.findByBookingAndIsLeaderTrue(booking)
@@ -37,7 +37,7 @@ public class GuestDetailService {
                 .orElse(null);
     }
 
-    // 🔹 Salva un guest a partire da un DTO
+    //Salvo un guest a partire da un DTO
     @Transactional
     public GuestDetail saveGuest(GuestDTO guestDTO, Booking booking) {
         GuestDetail guest = new GuestDetail();
@@ -53,7 +53,7 @@ public class GuestDetailService {
         return guestDetailRepository.save(guest);
     }
 
-    // 🔹 Salva una lista di guest da DTO
+    //Salvo una lista di guest da DTO
     @Transactional
     public List<GuestDetail> saveGuests(List<GuestDTO> guestDTOs, Booking booking) {
         return guestDTOs.stream()
@@ -61,7 +61,7 @@ public class GuestDetailService {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Elimina tutti i guest di una prenotazione
+    //Elimino tutti i guest di una prenotazione
     @Transactional
     public void deleteByBooking(Booking booking) {
         findByBooking(booking).forEach(guestDetailRepository::delete);

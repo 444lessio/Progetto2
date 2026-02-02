@@ -38,7 +38,7 @@ public class SecurityConfig {
                 if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_GESTORE"))) {
                     response.sendRedirect("/admin/dashboard");
                 } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_PERSONALE"))) {
-                    response.sendRedirect("/staff/dashboard"); // sostituisci con la home dello staff
+                    response.sendRedirect("/staff/dashboard"); // sostituisco con la home dello staff
                 } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"))) {
                     response.sendRedirect("/client/dashboard");
                 } else {
@@ -57,7 +57,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    //BCrypt
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

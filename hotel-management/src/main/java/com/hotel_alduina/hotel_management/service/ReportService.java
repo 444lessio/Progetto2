@@ -39,7 +39,7 @@ public class ReportService {
         return report;
     }
 
-    //Calcola i dati per la tassa di soggiorno
+    //Calcolo i dati per la tassa di soggiorno
     public List<TaxReportDTO> getTouristTaxReportData() {
         List<Booking> activBookings = bookingRepository.findByCheckedInTrueAndCheckedOutFalse();
         List<TaxReportDTO> taxReports = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ReportService {
         for (Booking booking : activBookings) {
             TaxReportDTO dto = new TaxReportDTO();
 
-            //Troviamo il capogruppo all'interno della lista degli ospiti
+            //Trovo il capogruppo all'interno della lista degli ospiti
             GuestDetail leader = booking.getGuestDetails().stream()
                 .filter(GuestDetail::isLeader)
                 .findFirst()

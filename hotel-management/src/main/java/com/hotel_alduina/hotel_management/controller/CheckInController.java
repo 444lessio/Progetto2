@@ -31,7 +31,7 @@ public class CheckInController {
         this.guestDetailService = guestDetailService;
     }
 
-    // ⭐ NUOVA VERSIONE - Mostra solo riepilogo, non form di modifica
+    
     @GetMapping("/{bookingId}")
     public String showCheckInSummary(@PathVariable Long bookingId, Model model) {
         Booking booking = checkInService.findBookingById(bookingId);
@@ -39,16 +39,16 @@ public class CheckInController {
             return "redirect:/client/dashboard";
         }
 
-        // Controlla se il check-in è già stato fatto
+        // Controllo se il check-in è già stato fatto
         if (booking.isCheckedIn()) {
             model.addAttribute("error", "Check-in già effettuato per questa prenotazione");
             return "redirect:/client/dashboard";
         }
 
-        // Recupera gli ospiti già salvati durante la prenotazione
+        // Recupero gli ospiti già salvati durante la prenotazione
         List<GuestDetail> guests = guestDetailService.findByBooking(booking);
         
-        // Converti in DTO per la visualizzazione
+        // Converto in DTO per la visualizzazione
         List<GuestDTO> guestDTOs = guests.stream()
             .map(this::convertToDTO)
             .collect(Collectors.toList());
@@ -56,13 +56,13 @@ public class CheckInController {
         model.addAttribute("booking", booking);
         model.addAttribute("guests", guestDTOs);
         
-        return "stay/check-in"; // <-- NUOVA VISTA (vedi sotto)
+        return "stay/check-in";
     }
 
-    // ⭐ SEMPLIFICA la conferma - non accetta più dati del form
+    
     @PostMapping("/conferma")
     public String confirmCheckIn(@RequestParam Long bookingId) {
-        // Esegui solo il check-in, senza salvare nuovi ospiti
+        // Eseguo solo il check-in, senza salvare nuovi ospiti
         checkInService.performCheckIn(bookingId);
         
         return "redirect:/stay/check-in/successo?bookingId=" + bookingId;

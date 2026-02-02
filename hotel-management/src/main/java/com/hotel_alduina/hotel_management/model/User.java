@@ -1,6 +1,6 @@
 package com.hotel_alduina.hotel_management.model;
 
-import jakarta.persistence.Column; /*Per permette di far comunicare le classi Java con le tabelle del DB */
+import jakarta.persistence.Column; 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     //Ora definisco il ruolo cosi da gestire i diversi accessi
-    /* CLIENTE, PERSONALE, GESTORE */
+    // CLIENTE, PERSONALE, GESTORE 
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ruolo", nullable = false)

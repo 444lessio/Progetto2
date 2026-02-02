@@ -23,13 +23,13 @@
                 </tr>
             </thead>
             <tbody>
-                <!--Itero sulle camere tramite Thymelead-->
+                
                 <tr th:each="room : ${rooms}">
                     <td th:text="${room.roomNumber}">101</td>
                     <td th:text="${room.status}">OCCUPATA</td>
                     <td th:text="${room.notes}">Nessuna nota</td>
                     <td>
-                        <!--Mostra solo se la camera è da pulire-->
+                        
                         <form th:if="${room.status.name() == 'DA_PULIRE'}"
                             th:action="@{/staff/pulizia/conferma}" method="post">
                             <input type="hidden" name="roomId" th:value="${room.id}">

@@ -97,10 +97,10 @@ public class BookingService {
     booking.setCheckedOut(false);
     booking.setNumGuests(form.getNumGuests());
 
-    // SALVA LA PRENOTAZIONE PRIMA
+    
     Booking savedBooking = bookingRepository.save(booking);
 
-    // AGGIUNGI: Salva gli ospiti
+    
     if (form.getGuests() != null && !form.getGuests().isEmpty()) {
         List<GuestDetail> guestDetails = form.getGuests().stream()
             .map(dto -> {
@@ -150,7 +150,7 @@ public class BookingService {
         // Aggiorno lo stato della camera
         Room room = booking.getRoom();
         if (room != null) {
-            room.setStatus(RoomStatus.DA_PULIRE); // libera la camera
+            room.setStatus(RoomStatus.DA_PULIRE); // libero la camera
             roomRepository.save(room);
         }
 
@@ -158,7 +158,7 @@ public class BookingService {
         booking.setCheckedIn(false); // check-out = non più check-in
         bookingRepository.save(booking);
 
-        return booking; // restituisco l'oggetto per mostrare i dati a Thymeleaf
+        return booking; 
     }
 
     /* Prenotazioni attive */

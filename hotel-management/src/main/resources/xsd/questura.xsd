@@ -11,7 +11,7 @@
               <xs:element name="cittadinanza" type="xs:string"/>
               <xs:element name="luogoNascita" type="xs:string"/>
               <xs:element name="dataNascita" type="xs:date"/>
-              <!-- Il documento è opzionale nello schema per gestire i non-leader -->
+              
               <xs:element name="documento" minOccurs="0">
                 <xs:complexType>
                   <xs:sequence>

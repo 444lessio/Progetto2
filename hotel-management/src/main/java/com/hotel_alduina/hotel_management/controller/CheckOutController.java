@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class CheckOutController {
 
     private final BookingService bookingService;
-    private final GuestDetailService guestDetailService; // nuovo servizio per i GuestDetail
+    private final GuestDetailService guestDetailService; 
 
     public CheckOutController(BookingService bookingService, GuestDetailService guestDetailService) {
         this.bookingService = bookingService;
@@ -39,7 +39,7 @@ public class CheckOutController {
                 .collect(Collectors.toList());
 
         model.addAttribute("booking", booking);
-        model.addAttribute("guestDetails", guestDetails); // <-- passo solo i DTO
+        model.addAttribute("guestDetails", guestDetails);
         return "stay/check-out";
     }
 
@@ -55,14 +55,14 @@ public class CheckOutController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("guestDTOs", guestDTOs);
-        return "stay/check-out-success"; // assicurati che esista la view
+        return "stay/check-out-success"; 
     }
 
     private GuestDTO convertToDTO(GuestDetail guest) {
         GuestDTO dto = new GuestDTO();
         dto.setFirstName(guest.getFirstName());
         dto.setLastName(guest.getLastName());
-        dto.setBirthDate(guest.getBirthDate().toString()); // puoi formattare come vuoi
+        dto.setBirthDate(guest.getBirthDate().toString());
         dto.setBirthPlace(guest.getBirthPlace());
         dto.setCitizenship(guest.getCitizenship());
         dto.setLeader(guest.isLeader());

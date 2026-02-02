@@ -19,12 +19,12 @@ public class RegistrationController {
     @GetMapping("/registration") //Per visualizzare il form
     public String showRegistrationForm(Model model) {
         model.addAttribute("registrationForm", new RegistrationForm());
-        return "/client_/registration"; //Questo return, ritorna il nome della vista Thymeleaf
+        return "/client_/registration"; 
     }
 
     @PostMapping("/registration") //Per gesire l'invio dei dati
     public String registrationUser(@ModelAttribute("registrationForm") RegistrationForm form) {
         userService.registraCliente(form);
-        return "redirect:/login"; //Queto return mi reinderizza all'accesso
+        return "redirect:/login"; 
     }
 }

@@ -21,7 +21,7 @@ public class StaffController {
 
   }
 
-  //Visualizza la dashboard del personale che contiene la lista delle camere, necessaria per vederne lo stato
+  //Visualizzo la dashboard del personale che contiene la lista delle camere, necessaria per vederne lo stato
   @GetMapping("/dashboard")
   public String showDashboard(Model model) {
 
@@ -33,7 +33,7 @@ public class StaffController {
 
   @PostMapping("/pulizia/conferma")
   public String markAsCleaned(@RequestParam("roomId") Long roomId) {
-    //Cambia lo stato della camera da DA_PULIRE a LIBERA
+    //Cambio lo stato della camera da DA_PULIRE a LIBERA
     roomService.updateRoomStatus(roomId, RoomStatus.LIBERA);
 
     return "redirect:/staff/dashboard";
@@ -44,7 +44,7 @@ public class StaffController {
 
     Collection<Room> roomWithNotes = roomService.getAllRooms();
 
-    //Aggiungiamo la collezione al modelo con request
+    //Aggiungo la collezione al modelo con request
     model.addAttribute("rooms", roomWithNotes);
 
     return "staff/dashboard";
