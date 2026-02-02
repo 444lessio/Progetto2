@@ -4,34 +4,37 @@
     <meta charset="UTF-8">
     <title>Invia Richiesta - Hotel Alduina</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
 </head>
 
 <body>
     <header>
-        <h1 th:text="'Soggiorno di' + ${customerName}">Richiesta allo Staff</h1>
+        <h1>Richiesta allo Staff</h1>
+        <p>Comunica le tue esigenze al personale della struttura</p>
     </header>
 
     <main>
         <section>
             <form th:action="@{/soggiorno/richiesta/invia}"  method="post">
-
-                <input type="hidden" name="roomId" th:value="${roomId}" />
-
                 <fieldset>
                     <legend>Nuova Richiesta o Nuova Nota</legend>
 
                     <p>Utilizza questo modulo per comunicare con lo staff</p>
 
-                    <div>
-                        <label for="notaContent">Descrizione della richiesta:</label><br>
-                        <textarea id="notaContent" name="nota"
-                                  rows="6" cols="50" required
+                    <input type="hidden" name="roomId" th:value="${roomId}" />
+
+                    <div class="form-group">
+                        <label for="nota"><strong>Descrizione della richiesta:</label></strong>
+                        <textarea id="nota" name="nota"
+                                  rows="8" cols="60" required
                                   placeholder="Scrivi qui la tua richiesta"></textarea>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit">Invia allo Staff</button>
-                        <button type="reset">Cancella</button>
+                        <button type="submit" class="btn btn-primary">Invia allo Staff</button>
+                        <button type="reset" class="btn btn-secondary">Cancella</button>
+                        <a th:href="@{/client/dashboard}" class="btn btn-secondary">Annulla</a>
                     </div>
                 </fieldset>
             </form>

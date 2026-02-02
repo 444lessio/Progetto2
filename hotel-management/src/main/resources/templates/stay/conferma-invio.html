@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Richiesta Inviata - Hotel Alduina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Richiesta Inviata con Successo!</h1>
+</header>
+
+<main>
+    <section style="text-align: center; padding: 40px 20px;">
+        <div style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 5px; margin: 0 auto; max-width: 600px;">
+            <h2 style="color: #155724; margin-top: 0;">✓ La tua richiesta è stata ricevuta</h2>
+            <p style="color: #155724; font-size: 1.1em;">
+                Il nostro staff ha ricevuto la tua nota e si occuperà della tua richiesta nel più breve tempo possibile.
+            </p>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <p><strong>Cosa succede ora?</strong></p>
+            <ul style="list-style: none; padding: 0; line-height: 2;">
+                <li>Il personale visualizzerà la tua richiesta nella propria dashboard</li>
+            </ul>
+        </div>
+
+        <div class="form-actions" style="margin-top: 40px;">
+            <a th:href="@{/client/dashboard}" class="btn btn-primary">Torna alla Dashboard</a>
+            <a th:href="@{/prenota/ricerca}" class="btn btn-secondary" style="margin-left: 10px;">Effettua una Nuova Prenotazione</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Hotel Alduina - Sistema Gestione Soggiorni</p>
+</footer>
+
+</body>
+</html>
