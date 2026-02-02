@@ -2,81 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"> 
-    <title>Check-in Online - Hotel Alduina</title>
+    <title>Riepilogo Check-in - Hotel Alduina</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:src="@{/js/main.js}"></script>
 </head>
 <body>
     <header>
-        <h1>Procedura di Check-in Online</h1>
-        <p>Benvenuto, conferma i tuoi dati anagrafici per completare l'arrivo in struttura.</p>
+        <h1>Conferma Check-in</h1>
+        <p>Verifica i dati prima di confermare l'arrivo in struttura.</p>
     </header>
 
     <main>
-        <section>
-            <form th:action="@{/stay/check-in/conferma}" method="post" th:object="${checkInForm}">
-                
-                <!-- Booking ID nascosto -->
-                <input type="hidden" th:field="*{bookingId}" />
-
-                <!-- Ciclo ospiti -->
-                <div th:each="guest, iterStat : *{guests}">
-                    <fieldset>
-                        <legend th:text="${guest.leader} ? 'Dati Capogruppo' : 'Dati Ospite ' + iterStat.count">
-                            Informazioni Ospite
-                        </legend>
-
-                        <div class="form-group">
-                            <label>Nome:</label>
-                            <input type="text" th:field="*{guests[__${iterStat.index}__].firstName}" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Cognome:</label>
-                            <input type="text" th:field="*{guests[__${iterStat.index}__].lastName}" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Cittadinanza:</label>
-                            <input type="text" th:field="*{guests[__${iterStat.index}__].citizenship}" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Data di Nascita:</label>
-                            <input type="date" th:field="*{guests[__${iterStat.index}__].birthDate}" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Luogo di Nascita:</label>
-                            <input type="text" th:field="*{guests[__${iterStat.index}__].birthPlace}" required />
-                        </div>
-
-                        <div th:if="${guest.leader}" class="leader-docs">
-                            <h3>Documento di Identità (Obbligatorio per Capogruppo)</h3>
-                            <div class="form-group">
-                                <label>Tipo Documento:</label>
-                                <select th:field="*{guests[__${iterStat.index}__].documentType}" required>
-                                    <option value="CARTA_IDENTITA">Carta d'Identità</option>
-                                    <option value="PASSAPORTO">Passaporto</option>
-                                    <option value="PATENTE">Patente</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Numero Documento:</label>
-                                <input type="text" th:field="*{guests[__${iterStat.index}__].documentNumber}" 
-                                       placeholder="Inserisci gli estremi..." required />
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">Conferma e Inizia Soggiorno</button>
-                    <button type="reset" class="btn-secondary">Annulla</button>
-                </div>
-            </form>
+        <section class="booking-info">
+            <h2>Dettagli Prenotazione</h2>
+            <p><strong>Camera:</strong> <span th:text="${booking.room.roomNumber}">101</span></p>
+            <p><strong>Struttura:</strong> <span th:text="${booking.room.structure.name}">Hotel Alduina</span></p>
+            <p><strong>Periodo:</strong> 
+                dal <span th:text="${#temporals.format(booking.startDate, 'dd/MM/yyyy')}">01/01/2025</span> 
+                al <span th:text="${#temporals.format(booking.endDate, 'dd/MM/yyyy')}">10/01/2025</span>
+            </p>
         </section>
+
+        <section class="guests-summary">
+            <h2>Ospiti Registrati</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ruolo</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Cittadinanza</th>
+                        <th>Data di Nascita</th>
+                        <th>Luogo di Nascita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="guest : ${guests}">
+                        <td>
+                            <span th:if="${guest.leader}" class="badge-leader">CAPOGRUPPO</span>
+                            <span th:unless="${guest.leader}">OSPITE</span>
+                        </td>
+                        <td th:text="${guest.firstName}">Mario</td>
+                        <td th:text="${guest.lastName}">Rossi</td>
+                        <td th:text="${guest.citizenship}">Italiana</td>
+                        <td th:text="${guest.birthDate}">2001-10-27</td>
+                        <td th:text="${guest.birthPlace}">Palermo</td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(guests)}">
+                        <td colspan="6" style="color: red; text-align: center;">
+                            ⚠️ Nessun ospite registrato. Impossibile procedere con il check-in.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="form-actions">
+            <!-- Mostra il pulsante solo se ci sono ospiti -->
+            <form th:if="${!#lists.isEmpty(guests)}" 
+                  th:action="@{/stay/check-in/conferma}" 
+                  method="post">
+                <input type="hidden" name="bookingId" th:value="${booking.id}" />
+                
+                <p class="info-text">
+                    ✓ I dati degli ospiti sono stati registrati durante la prenotazione.<br/>
+                    Cliccando su "Conferma Check-in" darai inizio al tuo soggiorno.
+                </p>
+                
+                <button type="submit" class="btn-primary">Conferma Check-in e Inizia Soggiorno</button>
+                <a th:href="@{/client/dashboard}" class="btn-secondary">Annulla</a>
+            </form>
+
+            <!-- Messaggio se mancano ospiti -->
+            <div th:if="${#lists.isEmpty(guests)}" class="error-box">
+                <p>Non è possibile effettuare il check-in senza dati degli ospiti.</p>
+                <a th:href="@{/client/dashboard}" class="btn-secondary">Torna alla Dashboard</a>
+            </div>
+        </div>
     </main>
 
     <footer>
