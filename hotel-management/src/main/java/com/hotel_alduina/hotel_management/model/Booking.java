@@ -53,7 +53,7 @@ public class Booking {
     private boolean checkedOut = false;
 
     @Column(name = "num_occupanti", nullable = false)
-    private int NumGuests;
+    private int numGuests;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GuestDetail> guestDetails;

@@ -81,7 +81,7 @@ public class ReportService {
         for (GuestDTO g : guests) {
             xml.append("  <ospite>\n");
             xml.append("     <nome>").append(g.getFirstName()).append("</nome>\n");
-            xml.append("     <cognome>").append(g.getLastName()).append("</congome>\n");
+            xml.append("     <cognome>").append(g.getLastName()).append("</cognome>\n");
             xml.append("     <cittadinanza>").append(g.getCitizenship()).append("</cittadinanza>\n");
             xml.append("     <luogoNascita>").append(g.getBirthPlace()).append("</luogoNascita>\n");
             xml.append("     <dataNascita>").append(g.getBirthDate()).append("</dataNascita>\n");
@@ -89,8 +89,8 @@ public class ReportService {
             if (g.isLeader()) {
                 //Campi solo per il capogruppo necessari
                 xml.append("    <documento>\n");
-                xml.append("      <tipo>").append("CARTA_IDENTITA").append("</tipo>\n");
-                xml.append("      <numero>").append("XYZ123").append("</numero>\n");
+                xml.append("      <tipo>").append(g.getDocumentType()).append("</tipo>\n");
+                xml.append("      <numero>").append(g.getDocumentNumber()).append("</numero>\n");
                 xml.append("    </documento>\n");
             }
             xml.append("  </ospite>\n");

@@ -1,6 +1,7 @@
 package com.hotel_alduina.hotel_management.controller;
 
 import com.hotel_alduina.hotel_management.dto.BookingForm;
+import com.hotel_alduina.hotel_management.dto.GuestDTO;
 import com.hotel_alduina.hotel_management.model.Room;
 import com.hotel_alduina.hotel_management.service.BookingService;
 import com.hotel_alduina.hotel_management.service.RoomService;
@@ -14,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/prenota") // Questa è la path di base per tutte le operazioni di prenotazione
@@ -57,6 +60,13 @@ public class BookingController {
                 form.getStructureId(),
                 form.getStartDate(),
                 form.getEndDate());
+        List<GuestDTO> guests = new ArrayList<>();
+        for (int i = 0; i < form.getNumGuests(); i++) {
+            GuestDTO guest = new GuestDTO();
+            guest.setLeader(i == 0);
+            guests.add(guest);
+        }
+        form.setGuests(guests);
 
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("bookingForm", form);

@@ -59,10 +59,62 @@
                 </div>
             </section>
 
-            <div class="form-actions">
-                <button type="submit" class="btn-primary">Vai al Riepilogo Costi</button>
-                <a th:href="@{/booking/search}" class="btn-secondary">Modifica Date</a>
-            </div>
+            <section>
+                <h2>3. Dati Ospiti</h2>
+                <div th:each="i : ${#numbers.sequence(0, bookingForm.numGuests - 1)}">
+                    <fieldset>
+                        <legend th:text="${ i == 0 ? 'Capogruppo' : 'Ospite' + (i + 1)}">Ospite</legend>
+
+                        <div class="form-group">
+                            <label>Nome:</label>
+                            <input type="text" th:field="*{guests[__${i}__].firstName}" required />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Cittadinanza:</label>
+                            <input type="text" th:field="*{guests[__${i}__].citizenship}" required />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Data di Nascita:</label>
+                            <input type="date" th:field="*{guests[__${i}__].birthDate}" required />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Luogo di Nascita:</label>
+                            <input type="text" th:field="*{guests[__${i}__].birthPlace}" required />
+                        </div>
+
+                        <div class="form_group">
+                            <label>Cognome:</label>
+                            <input type="text" th:field="*{guests[__${i}__].lastName}" required />
+                        </div>
+
+                        <div th:if="${i == 0}">
+                            <div class="form-group">
+                                <label>Tipo Documento:</label>
+                                <select th:field="*{guests[__${i}__].documentType}">
+                                    <option value="CARTA_IDENTITA">Carta d'Identità</option>
+                                    <option value="PASSAPORTO">Passaporto</option>
+                                    <option value="PATENTE">Patente</option>
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label>Numero Documento:</label>
+                                <input type="text" th:field="*{guests[__${i}__].documentNumber}" required />
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" th:field="*{guests[__${i}__].leader}" th:value="${i == 0}" />
+                    </fieldset>
+                </div>
+            </section>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Vai al Riepilogo Costi</button>
+                            <a th:href="@{/booking/search}" class="btn-secondary">Modifica Date</a>
+                        </div>
         </form>
     </main>
 

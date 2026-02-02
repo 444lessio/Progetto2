@@ -1,6 +1,8 @@
 package com.hotel_alduina.hotel_management.dto;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.validation.constraints.NotNull;
 
 
@@ -19,4 +21,5 @@ public class BookingForm {
     private int numGuests;
     private String additionalServices;
     private Long roomId;
+    private List<GuestDTO> guests;
 }

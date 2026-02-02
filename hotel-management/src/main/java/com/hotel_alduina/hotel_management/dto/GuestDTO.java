@@ -9,6 +9,8 @@ public class GuestDTO {
     private String citizenship;
     private String birthPlace;
     private String birthDate; //String per facilitare quello che sarà il mapping dai form HTML
-    private boolean isLeader;
+    private boolean leader;
     private String exemptionType;
+    private String documentType;
+    private String documentNumber;
 }

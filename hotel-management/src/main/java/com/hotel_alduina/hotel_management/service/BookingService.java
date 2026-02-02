@@ -1,17 +1,24 @@
 package com.hotel_alduina.hotel_management.service;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.hotel_alduina.hotel_management.dto.BookingForm;
 import com.hotel_alduina.hotel_management.model.Booking;
+import com.hotel_alduina.hotel_management.model.GuestDetail;
 import com.hotel_alduina.hotel_management.model.Room;
 import com.hotel_alduina.hotel_management.model.RoomStatus;
 import com.hotel_alduina.hotel_management.model.User;
 import com.hotel_alduina.hotel_management.repository.BookingRepository;
+import com.hotel_alduina.hotel_management.repository.GuestDetailRepository;
 import com.hotel_alduina.hotel_management.repository.RoomRepository;
 import com.hotel_alduina.hotel_management.repository.UserRepository;
 
@@ -29,6 +36,9 @@ public class BookingService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GuestDetailRepository guestDetailRepository;
 
     /* Calcolo costo totale */
     public double calculateTotalCost(BookingForm form) {
@@ -72,25 +82,50 @@ public class BookingService {
 
     /* Salvataggio prenotazione */
     public Booking saveBooking(BookingForm form, String username) {
+    User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+    Room room = roomRepository.findById(form.getRoomId())
+            .orElseThrow(() -> new RuntimeException("Camera non trovata"));
 
-        Room room = roomRepository.findById(form.getRoomId())
-                .orElseThrow(() -> new RuntimeException("Camera non trovata"));
+    Booking booking = new Booking();
+    booking.setCustomer(user);
+    booking.setRoom(room);
+    booking.setStartDate(form.getStartDate());
+    booking.setEndDate(form.getEndDate());
+    booking.setAdditionalServices(form.getAdditionalServices());
+    booking.setTotalCost(calculateTotalCost(form));
+    booking.setCheckedIn(false);
+    booking.setCheckedOut(false);
+    booking.setNumGuests(form.getNumGuests());
 
-        Booking booking = new Booking();
-        booking.setCustomer(user);
-        booking.setRoom(room);
-        booking.setStartDate(form.getStartDate());
-        booking.setEndDate(form.getEndDate());
-        booking.setAdditionalServices(form.getAdditionalServices());
-        booking.setTotalCost(calculateTotalCost(form));
-        booking.setCheckedIn(false);
-        booking.setCheckedOut(false);
+    // SALVA LA PRENOTAZIONE PRIMA
+    Booking savedBooking = bookingRepository.save(booking);
 
-        return bookingRepository.save(booking);
+    // AGGIUNGI: Salva gli ospiti
+    if (form.getGuests() != null && !form.getGuests().isEmpty()) {
+        List<GuestDetail> guestDetails = form.getGuests().stream()
+            .map(dto -> {
+                GuestDetail guest = new GuestDetail();
+                guest.setFirstName(dto.getFirstName());
+                guest.setLastName(dto.getLastName());
+                guest.setCitizenship(dto.getCitizenship());
+                guest.setBirthPlace(dto.getBirthPlace());
+                guest.setBirthDate(LocalDate.parse(dto.getBirthDate()));
+                guest.setLeader(dto.isLeader());
+                guest.setDocumentType(dto.getDocumentType());
+                guest.setDocumentNumber(dto.getDocumentNumber());
+                guest.setExemptionType(dto.getExemptionType());
+                guest.setBooking(savedBooking);
+                return guest;
+            })
+            .collect(Collectors.toList());
+        
+        guestDetailRepository.saveAll(guestDetails);
     }
+
+    return savedBooking;
+}
 
     /* Check-in */
     public void performCheckIn(Long bookingId) {
@@ -117,7 +152,7 @@ public class BookingService {
         // Aggiorno lo stato della camera
         Room room = booking.getRoom();
         if (room != null) {
-            room.setStatus(RoomStatus.LIBERA); // libera la camera
+            room.setStatus(RoomStatus.DA_PULIRE); // libera la camera
             roomRepository.save(room);
         }
 
